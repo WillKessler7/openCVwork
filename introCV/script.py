@@ -2,12 +2,18 @@ import numpy as np
 import argparse
 import cv2
 
-def displayImage(image, label, text):
+def displayImage(image, label, text, rectangle):
+    if rectangle == None:
+        rectangle = False
+
     if text != None:
-        cv2.putText(image, text, (400, 775), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 255, 255), 2)
+        if rectangle == True:
+            cv2.rectangle(image, (0, 600),(1200,900), (0,0,0), -1)
+        cv2.putText(image, text, (575, 775), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
     cv2.imshow(label, image)
     k = cv2.waitKey(0)
     return k
+
 
 def overlay(background, foreground, secondImage):
 
@@ -50,7 +56,7 @@ def main():
     introSlideImg = cv2.imread(introSlide)
 
     introduction = displayImage(introSlideImg\
-    , "Welcome to Rick and Morty's adventure", "Press any key to start.")
+    , "Welcome to Rick and Morty's adventure", "Press any key to start.", rectangle = True)
     cv2.destroyAllWindows()
 
     combinedImages, garageCopy = overlay(garageImg, standingRickImg, standingMortyImg)
